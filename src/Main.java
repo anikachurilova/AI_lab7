@@ -153,7 +153,7 @@ public class Main {
             }
 
             //display information about the current nextLocation
-            Information.information(agentX, agentY, knowledgeBase, mapMatrix);
+            Output.output(agentX, agentY, knowledgeBase, mapMatrix);
 
             if (agentX == 0 && agentY == 3 && isGoldGrabbed) {
                 isGameFinished = true;
@@ -161,9 +161,9 @@ public class Main {
             }
 
             //decide whether or not to attempt to shoot the wumpus
-            if (!Problem3_3d.Shooting.arrowShot && Problem3_3d.Shooting.isWumpusAlive) {
-                mapMatrix = Problem3_3d.Shooting.shoot(agentX, agentY, knowledgeBase, mapMatrix);
-                if (!Problem3_3d.Shooting.isWumpusAlive) {
+            if (!Shooting.arrowShot && Shooting.isWumpusAlive) {
+                mapMatrix = Shooting.shoot(agentX, agentY, knowledgeBase, mapMatrix);
+                if (!Shooting.isWumpusAlive) {
                     for (int x = 0; x < 4; x++) {
                         for (int y = 0; y < 4; y++) {
                             if (!(x == 0 && y == 3)) {
@@ -176,7 +176,7 @@ public class Main {
             }
 
             //decide where to move. Agent will move to adjacent square with lowest chance of having a pit/wumpus
-            int[] nextLocation = Move.move(agentX, agentY, knowledgeBase, isGoldGrabbed);
+            int[] nextLocation = Action.action(agentX, agentY, knowledgeBase, isGoldGrabbed);
             agentX = nextLocation[0];
             agentY = nextLocation[1];
         }
