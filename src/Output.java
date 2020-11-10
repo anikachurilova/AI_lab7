@@ -15,8 +15,8 @@ public class Output {
         if (map[pointX][pointY][2] == 1) {
             System.out.println("Agent sensor: glitter - GOLD!");
         }
-
-        System.out.println("Predictions to fall in pit:");
+        System.out.println();
+        System.out.println("---Predictions to fall in pit---");
         if (pointY > 0) {
             System.out.println("Up -> " + knowledge[pointX][pointY - 1][0]);
         }
@@ -30,7 +30,9 @@ public class Output {
             System.out.println("Right ->" + knowledge[pointX + 1][pointY][0]);
         }
 
-        System.out.print("\nPredictions of finding Wumpus:");
+        System.out.println();
+
+        System.out.println("---Predictions of finding Wumpus---");
         if (pointY > 0) {
             System.out.println("Up -> " + knowledge[pointX][pointY - 1][1]);
         }
