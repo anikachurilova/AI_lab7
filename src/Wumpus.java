@@ -8,22 +8,22 @@ public class Wumpus {
             Queue<Integer> w = new LinkedList<>();
 
             int counter = 0;
-            if (knowledge[x - 1][y][1] != 0 && (x > 0)) {
+            if(x > 0 && knowledge[x-1][y][1] != 0) {
                 w.add(x - 1);
                 w.add(y);
                 counter++;
             }
-            if (knowledge[x + 1][y][1] != 0 && (x < 3)) {
+            if(x < 3 && knowledge[x+1][y][1] != 0) {
                 w.add(x + 1);
                 w.add(y);
                 counter++;
             }
-            if (knowledge[x][y - 1][1] != 0 && (y > 0)) {
+            if(y > 0  && knowledge[x][y-1][1] != 0) {
                 w.add(x);
                 w.add(y - 1);
                 counter++;
             }
-            if (knowledge[x][y + 1][1] != 0 && (y < 3)) {
+            if(y < 3  && knowledge[x][y+1][1] != 0) {
                 w.add(x);
                 w.add(y + 1);
                 counter++;
