@@ -5,7 +5,22 @@ public class Pit {
 
     public static double[][][] pit(double[][][] knowledge, int[][][] map, int x, int y, int breeze){
 
-        if(breeze == 1){ //if agent feels a breeze
+        if(breeze != 1){
+            if(x>0) {
+                knowledge[x - 1][y][0] = 0;
+            }
+            if(x<3) {
+                knowledge[x + 1][y][0] = 0;
+            }
+            if(y>0) {
+                knowledge[x][y - 1][0] = 0;
+            }
+            if(y<3) {
+                knowledge[x][y + 1][0] = 0;
+            }
+
+        }else{
+
 
             Queue<Integer> q = new LinkedList<>();
 
@@ -35,20 +50,6 @@ public class Pit {
                 int a = q.remove();
                 int b = q.remove();
                 knowledge[a][b][0] = (double) 1/count;
-            }
-        }else{ //in case there is no breeze
-
-            if(x>0) {
-                knowledge[x - 1][y][0] = 0;
-            }
-            if(x<3) {
-                knowledge[x + 1][y][0] = 0;
-            }
-            if(y>0) {
-                knowledge[x][y - 1][0] = 0;
-            }
-            if(y<3) {
-                knowledge[x][y + 1][0] = 0;
             }
         }
 

@@ -6,10 +6,7 @@ public class Wumpus {
 
         if(stench==1){ //in case agent smells a stench
             Queue<Integer> w = new LinkedList<>();
-           /*
-            check 4 surrounding squares. Add them to list of possible Wumpus locations if they are not
-            out of bounds, and aren't already marked as 100% absence of Wumpus
-            */
+
             int counter = 0;
             if(knowledge[x-1][y][1] != 0 && (x > 0)) {
                 w.add(x-1);
