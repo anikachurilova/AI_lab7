@@ -14,12 +14,12 @@ public class Main {
         The 5 percepts are: Stench, Breeze, Glitter, being killed by a Wumpus, and falling in a pit
         */
 
-        int agentX = 0, agentY = 3; //agent starts in bottom left corner of mapMatrix
+        int agentX = 0, agentY = 3;
 
         //randomly place Wumpus
         int wumpusX = r.nextInt(4);
         int wumpusY = r.nextInt(4);
-        while (wumpusX == 0 && wumpusY == 3) { //Wumpus cannot be in agent's starting position
+        while (wumpusX == 0 && wumpusY == 3) {
             wumpusX = r.nextInt(4);
             wumpusY = r.nextInt(4);
         }
@@ -32,14 +32,10 @@ public class Main {
             goldX = r.nextInt(4);
             goldY = r.nextInt(4);
         }
-        //Gold cannot be in agent's starting position, or where the Wumpus is
+
 
         mapMatrix[goldX][goldY][2] = 1;
 
-        /*
-        Randomly add pits. Each location has a 0.2 chance of having a pit, except for location of
-        Wumpus, location of gold, and agent's starting location
-        */
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
                 if ((!(x == agentX && y == agentY)) && (!(x == wumpusX && y == wumpusY)) && (!(x == goldX && y == goldY))) {
@@ -51,7 +47,7 @@ public class Main {
             }
         }
 
-        //add a stench to squares directly adjacent to Wumpus
+        //adding stenches
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
                 if (x == wumpusX && y == wumpusY) {
@@ -71,7 +67,7 @@ public class Main {
 
             }
         }
-        //add a breeze to squares directly adjacent to pits
+        //adding breezes
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
                 if (mapMatrix[x][y][4] == 1) {
@@ -92,7 +88,6 @@ public class Main {
             }
         }
 
-        //print the starting Wumpus Environment
         System.out.print("    0   1   2   3");
         for (int y = 0; y < 4; y++) {
             System.out.print("\n" + y + " |");
@@ -113,25 +108,21 @@ public class Main {
         }
         System.out.println("\n");
 
-        /*store all knowledgeBase the agent has acquired. The knowledgeBase for each square includes:
-        chance the square has a pit, the chance it has a Wumpus, and whether it has been visited by the agent
-        */
-        double[][][] knowledgeBase = new double[4][4][3];
+        double[][][] knowledgeBase = new double[4][4][3]; //0 - has a pit, 1 - has a wumpus, 2 - visited
 
-        //the agent starts by assuming each square has a 0.2 chance of having a pit, and a 1/15 chance of having the Wumpus
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
                 if (!(x == 0 && y == 3)) {
-                    knowledgeBase[x][y][0] = 0.2;
-                    knowledgeBase[x][y][1] = 1d / 15d;
+                    knowledgeBase[x][y][0] = 0.2; //chance for a pit
+                    knowledgeBase[x][y][1] = 1d / 15d; // chance for a wumpus
                 }
             }
         }
 
-        boolean isGameFinished = false; //true once the gold has been brought back to the starting point
+        boolean isGameFinished = false;
         boolean isGoldGrabbed = false;
         while (!isGameFinished) {
-            knowledgeBase[agentX][agentY][2] += 1; //mark the current nextLocation as visited
+            knowledgeBase[agentX][agentY][2] += 1; //current point is visited
             System.out.println("\nThe Agent's Location: (" + agentX + ", " + agentY + ")");
 
             if (mapMatrix[agentX][agentY][3] == 1) {
@@ -152,7 +143,6 @@ public class Main {
                 isGoldGrabbed = true;
             }
 
-            //display information about the current nextLocation
             Output.output(agentX, agentY, knowledgeBase, mapMatrix);
 
             if (agentX == 0 && agentY == 3 && isGoldGrabbed) {
@@ -160,7 +150,6 @@ public class Main {
                 System.out.println("\nGold has been brought back to the start point!!!The Agent won!!!");
             }
 
-            //decide whether or not to attempt to shoot the wumpus
             if (!Shooting.arrowShot && Shooting.isWumpusAlive) {
                 mapMatrix = Shooting.shoot(agentX, agentY, knowledgeBase, mapMatrix);
                 if (!Shooting.isWumpusAlive) {
@@ -175,7 +164,6 @@ public class Main {
 
             }
 
-            //decide where to move. Agent will move to adjacent square with lowest chance of having a pit/wumpus
             int[] nextLocation = Action.action(agentX, agentY, knowledgeBase, isGoldGrabbed);
             agentX = nextLocation[0];
             agentY = nextLocation[1];
